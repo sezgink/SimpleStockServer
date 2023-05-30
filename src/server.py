@@ -7,11 +7,12 @@ app = Flask(__name__)
 
 basketInstance = basket.Basket()
 
-@app.route('/')
-def Hello():
+@app.route('/stock')
+def Stock():
     stock_dataframe = dataHolder.ReadData()
     top5 = stock_dataframe.head(5)
-    return str(top5)
+    return str(stock_dataframe)
+    # return str(top5)
 
 @app.route('/clean')
 def Clean():
