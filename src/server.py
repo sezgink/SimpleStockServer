@@ -25,16 +25,28 @@ def AddItems():
     
     return addResult
 
-@app.route('/addToBasket',methods=['GET', 'POST'])
+@app.route('/addtobasket',methods=['GET', 'POST'])
 def AddToBasket():
+    global basketInstance
     json_data = request.get_json()
-    addResult = dataHolder.AddItems(json_data)
-    
-    return addResult
+    basketInstance.AddItem(json_data["type_id"])
+    return basketInstance.ToJson()
 
-@app.route('/GetBasket')
+@app.route('/getbasket')
 def GetBasket():
-    json_data = request.get_json()
-    addResult = dataHolder.AddItems(json_data)
-    
-    return addResult
+    global basketInstance
+    json_data = basketInstance.ToJson()    
+    return json_data
+
+@app.route('/sellbasket')
+def SellBasket():
+    global basketInstance
+    json_data = basketInstance.ToJson()
+    dataHolder.RemoveItems(json_data)    
+    return json_data
+
+@app.route('/cleanbasket')
+def CleanBasket():
+    global basketInstance
+    basketInstance.Clean()  
+    return basketInstance.ToJson() 

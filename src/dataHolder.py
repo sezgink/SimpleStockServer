@@ -30,11 +30,26 @@ def FindAndAddItem(df : pd.DataFrame,typeId:int,quantity : int):
         df = pd.concat([df,new_row],ignore_index=True)
     return df
 
+def FindAndRemoveItem(df : pd.DataFrame,typeId:int,quantity : int):
+    if (df['type_id'] == typeId).any():
+        df.loc[df['type_id'] == typeId, 'quantity'] -= quantity
+    else:
+        new_row = pd.DataFrame({'type_id': [typeId], 'quantity': [-quantity]} )
+        df = pd.concat([df,new_row],ignore_index=True)
+    return df
+
 def AddItems(itemsJSON):
     # print(itemsJSON)
     stock_data = ReadData()
     for item in itemsJSON["items"]:
         stock_data = FindAndAddItem(stock_data,item["type_id"],item["quantity"])
+    WriteData(stock_data,stock_data_adress)
+    return str(stock_data.head(5))
+def RemoveItems(itemsJSON):
+    # print(itemsJSON)
+    stock_data = ReadData()
+    for item in itemsJSON["items"]:
+        stock_data = FindAndRemoveItem(stock_data,item["type_id"],item["quantity"])
     WriteData(stock_data,stock_data_adress)
     return str(stock_data.head(5))
 
