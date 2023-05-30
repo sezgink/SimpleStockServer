@@ -38,11 +38,12 @@ def GetBasket():
     json_data = basketInstance.ToJson()    
     return json_data
 
-@app.route('/sellbasket')
-def SellBasket():
+@app.route('/checkoutbasket',methods=['GET', 'POST'])
+def CheckoutBasket():
     global basketInstance
-    json_data = basketInstance.ToJson()
-    dataHolder.RemoveItems(json_data)    
+    json_data = basketInstance.ToJsonObject()
+    dataHolder.RemoveItems(json_data)
+    basketInstance.Clean()    
     return json_data
 
 @app.route('/cleanbasket')

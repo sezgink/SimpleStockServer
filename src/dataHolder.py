@@ -46,7 +46,7 @@ def AddItems(itemsJSON):
     WriteData(stock_data,stock_data_adress)
     return str(stock_data.head(5))
 def RemoveItems(itemsJSON):
-    # print(itemsJSON)
+    print(itemsJSON)
     stock_data = ReadData()
     for item in itemsJSON["items"]:
         stock_data = FindAndRemoveItem(stock_data,item["type_id"],item["quantity"])

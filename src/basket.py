@@ -23,5 +23,10 @@ class Basket():
     def ToJson(self):
         items_array = [item.__dict__ for item in self.items]
         basketDict = {"items":items_array}
-        print(basketDict)
+        # print(basketDict)
         return json.dumps(basketDict)
+    def ToJsonObject(self):
+        items_array = [item.__dict__ for item in self.items]
+        basketDict = {"items":items_array}
+        # print(basketDict)
+        return basketDict
