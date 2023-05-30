@@ -1,0 +1,3 @@
+import dataHolder
+
+dataHolder.ReadData()
