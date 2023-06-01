@@ -25,6 +25,12 @@ def AddItems():
     addResult = dataHolder.AddItems(json_data)
     
     return addResult
+@app.route('/createitem',methods=['GET', 'POST'])
+def CreateItem():
+    json_data = request.get_json()
+    addResult = dataHolder.CreateItemData(json_data)
+    
+    return addResult
 
 @app.route('/addtobasket',methods=['GET', 'POST'])
 def AddToBasket():

@@ -1,7 +1,8 @@
 import pandas as pd
 import os.path
-
-stock_data_columns = ["type_id","quantity"]
+import numpy as np
+import math
+stock_data_columns = ["type_id","quantity","price","name"]
 stock_data_adress = "stockData.csv"
 
 def CreateNewData():
@@ -38,6 +39,21 @@ def FindAndRemoveItem(df : pd.DataFrame,typeId:int,quantity : int):
         df = pd.concat([df,new_row],ignore_index=True)
     return df
 
+def FindOrCreateItem(df : pd.DataFrame, itemData : dict):
+    if False: #TODO: Constraits for creating item
+        print(False)
+    # if (df['type_id'] == typeId).any() & False:
+        # df.loc[df['type_id'] == typeId, 'quantity'] += quantity
+    else:
+        isEmpty = maxTypeId = df.loc[df['type_id']].empty
+        if isEmpty:
+            maxTypeId = 0
+        else:
+            maxTypeId = int(df.type_id.max()) + 1
+        new_row = pd.DataFrame({'type_id': [maxTypeId], 'quantity': [0],'price':[itemData["price"]] ,'name':[itemData["name"]]} )
+        df = pd.concat([df,new_row],ignore_index=True)
+    return df
+
 def AddItems(itemsJSON):
     # print(itemsJSON)
     stock_data = ReadData()
@@ -45,6 +61,24 @@ def AddItems(itemsJSON):
         stock_data = FindAndAddItem(stock_data,item["type_id"],item["quantity"])
     WriteData(stock_data,stock_data_adress)
     return str(stock_data.head(5))
+
+def FindAndUpdatePrice(df : pd.DataFrame,typeId:int,price : int):
+    if (df['type_id'] == typeId).any():
+        df.loc[df['type_id'] == typeId, 'price'] += price
+    return df
+
+def CreateItemData(itemData):
+    stock_data = ReadData()
+    stock_data = FindOrCreateItem(stock_data,itemData)
+    WriteData(stock_data,stock_data_adress)
+    return str(stock_data.head(5))
+
+def UpdateItemPrice(itemData):
+    stock_data = ReadData()
+    stock_data = FindAndUpdatePrice(stock_data,itemData["type_id"],itemData["price"])
+    WriteData(stock_data,stock_data_adress)
+    return str(stock_data.head(5))
+    
 def RemoveItems(itemsJSON):
     print(itemsJSON)
     stock_data = ReadData()
