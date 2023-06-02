@@ -25,7 +25,10 @@ class Basket():
     def ToJson(self):
         price_dict = dataHolder.GetPriceDict()
         for item in self.items:
-            item.unit_price = price_dict[item.type_id]
+            try:    
+                item.unit_price = price_dict[item.type_id]['price']
+            except Exception as e:
+                print("Exception",str(e))
         items_array = [item.__dict__ for item in self.items]
         basketDict = {"items":items_array}
         # print(basketDict)
@@ -33,7 +36,10 @@ class Basket():
     def ToJsonObject(self):
         price_dict = dataHolder.GetPriceDict()
         for item in self.items:
-            item.unit_price = price_dict[item.type_id]
+            try:    
+                item.unit_price = price_dict[item.type_id]['price']
+            except Exception as e:
+                print("Exception",str(e))
         items_array = [item.__dict__ for item in self.items]
         basketDict = {"items":items_array}
         # print(basketDict)
