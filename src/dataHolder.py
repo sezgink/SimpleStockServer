@@ -78,7 +78,13 @@ def UpdateItemPrice(itemData):
     stock_data = FindAndUpdatePrice(stock_data,itemData["type_id"],itemData["price"])
     WriteData(stock_data,stock_data_adress)
     return str(stock_data.head(5))
-    
+
+def GetPriceDict():
+    stock_data = ReadData()
+    stock_data = stock_data[["type_id","price"]]  # Selecting only the type_id and price columns
+    stock_data_dict = stock_data.to_dict('records')
+    return stock_data_dict
+
 def RemoveItems(itemsJSON):
     print(itemsJSON)
     stock_data = ReadData()
